@@ -12,7 +12,6 @@ import com.example.weather.models.Forecast
 import com.example.weather.viewmodels.ForecastViewModel
 
 class WeatherDisplayFragment() : Fragment() {
-    private lateinit var viewModel: ForecastViewModel
     private var forecast: Forecast? = null
 
     private fun temperatureAsCelsiusStr(): String {
@@ -26,7 +25,7 @@ class WeatherDisplayFragment() : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
+        val viewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
         forecast = viewModel.fetchForecast()
     }
 
@@ -35,9 +34,6 @@ class WeatherDisplayFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        viewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
-        val forecast = viewModel.fetchForecast()
 
         val view = inflater.inflate(R.layout.weather_display, container, false)
         view.findViewById<TextView>(R.id.weatherText)?.text = temperatureAsCelsiusStr()
