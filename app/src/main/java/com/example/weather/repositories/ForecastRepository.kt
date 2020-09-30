@@ -6,6 +6,6 @@ import com.example.weather.models.Forecast
 class ForecastRepository {
 
     fun fetchForecast(): Forecast {
-        return Forecast("cloudy", 15f);
+        return Forecast("cloudy", 15f, 10f);
     }
 }

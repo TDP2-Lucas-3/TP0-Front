@@ -19,8 +19,9 @@ class WeatherDisplayFragment() : Fragment() {
     }
 
     private fun rainProbabilityStr(forecast: Forecast?): String {
-        return "10% lluvia"
+        return "${forecast?.rainProbability?.toInt()}% lluvia"
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
