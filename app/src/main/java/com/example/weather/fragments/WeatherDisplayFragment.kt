@@ -13,15 +13,22 @@ import com.example.weather.viewmodels.ForecastViewModel
 
 class WeatherDisplayFragment() : Fragment() {
     private lateinit var viewModel: ForecastViewModel
+    private var forecast: Forecast? = null
 
-    private fun temperatureAsCelsiusStr(forecast: Forecast?): String {
+    private fun temperatureAsCelsiusStr(): String {
         return "${forecast?.temperature?.toInt()} ºC"
     }
 
-    private fun rainProbabilityStr(forecast: Forecast?): String {
+    private fun rainProbabilityStr(): String {
         return "${forecast?.rainProbability?.toInt()}% lluvia"
     }
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
+        forecast = viewModel.fetchForecast()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,8 +40,8 @@ class WeatherDisplayFragment() : Fragment() {
         val forecast = viewModel.fetchForecast()
 
         val view = inflater.inflate(R.layout.weather_display, container, false)
-        view.findViewById<TextView>(R.id.weatherText)?.text = temperatureAsCelsiusStr(forecast)
-        view.findViewById<TextView>(R.id.rainText)?.text = rainProbabilityStr(forecast)
+        view.findViewById<TextView>(R.id.weatherText)?.text = temperatureAsCelsiusStr()
+        view.findViewById<TextView>(R.id.rainText)?.text = rainProbabilityStr()
 
         return view
     }
