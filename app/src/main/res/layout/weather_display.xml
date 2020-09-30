@@ -27,11 +27,10 @@
             android:layout_weight="0" />
 
         <TextView
-            android:id="@+id/temperature"
+            android:id="@+id/weatherText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="100px"
-            android:text="50 C"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textColor="#000000" />
 
