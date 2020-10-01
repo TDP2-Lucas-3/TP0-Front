@@ -1,14 +1,22 @@
 package com.example.weather.repositories
 
+import android.util.Log
+import com.example.weather.apis.ForecastAPI
 import com.example.weather.models.Forecast
 import com.example.weather.support.HttpClient
 
 
 class ForecastRepository {
-    private val httpClient: HttpClient = HttpClient()
+    private val API = HttpClient().getAPI(ForecastAPI::class.java)
 
     fun fetchForecast(): Forecast {
-        httpClient.get("weather")
-        return Forecast("cloudy", 15f, 10f);
+        val forecast = API.getWeather().execute().body()
+
+        if (forecast != null) {
+            Log.i("Forecast", "Forecast fetched");
+            return forecast;
+        }
+
+        throw Exception("Error en la API call")
     }
 }

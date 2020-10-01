@@ -1,17 +1,27 @@
 package com.example.weather.support
 
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import com.google.gson.GsonBuilder
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 class HttpClient {
-    private val client = OkHttpClient()
+    fun<T> getAPI(API: Class<T>): T {
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
 
-    fun get(resource: String): String {
-        val request = Request.Builder()
-            .url("$HOST/$resource")
+        val retrofit: Retrofit = Retrofit.Builder()
+            .baseUrl(HOST)
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
-        client.newCall(request).execute().use { response -> return response.body!!.string() }
+        val api: T? = retrofit.create(API)
+
+        if (api != null) {
+            return api
+        }
+        throw Exception("Error instanciando API client")
     }
 
     companion object {

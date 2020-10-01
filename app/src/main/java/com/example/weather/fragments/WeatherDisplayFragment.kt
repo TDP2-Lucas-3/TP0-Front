@@ -1,32 +1,45 @@
 package com.example.weather.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.models.Forecast
+import com.example.weather.repositories.ForecastRepository
 import com.example.weather.viewmodels.ForecastViewModel
 
 class WeatherDisplayFragment() : Fragment() {
     private var forecast: Forecast? = null
 
     private fun temperatureAsCelsiusStr(): String {
-        return "${forecast?.temperature?.toInt()} ºC"
+        return "${forecast?.temp?.toInt()} ºC"
     }
 
     private fun rainProbabilityStr(): String {
-        return "${forecast?.rainProbability?.toInt()}% lluvia"
+        return "${forecast?.rain?.toInt()}% lluvia"
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
-        forecast = viewModel.fetchForecast()
+        val thread = Thread {
+            kotlin.run {
+                forecast = ForecastRepository().fetchForecast()
+                Log.i("Forecast", forecast!!.temp.toString())
+                view?.findViewById<TextView>(R.id.weatherText)?.text =
+                    temperatureAsCelsiusStr()
+                view?.findViewById<TextView>(R.id.rainText)?.text = rainProbabilityStr()
+
+            }
+        }
+
+        thread.start()
     }
 
     override fun onCreateView(

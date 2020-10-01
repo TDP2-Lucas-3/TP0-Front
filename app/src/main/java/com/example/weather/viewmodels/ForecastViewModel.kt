@@ -8,7 +8,7 @@ import com.example.weather.repositories.ForecastRepository
 class ForecastViewModel : ViewModel() {
     val forecast = MutableLiveData<Forecast>();
     fun fetchForecast(): Forecast? {
-        forecast.value = ForecastRepository().fetchForecast();  // THIS SHOULD PROBABLY BE ASYNC LOL
+        forecast.postValue(ForecastRepository().fetchForecast())
         return forecast.value;
     }
 }
