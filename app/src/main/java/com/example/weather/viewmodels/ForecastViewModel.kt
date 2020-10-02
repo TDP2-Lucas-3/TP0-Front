@@ -1,5 +1,6 @@
 package com.example.weather.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,8 @@ class ForecastViewModel : ViewModel() {
             return ForecastRepository().fetchForecast()
         } catch (error: NetworkErrorException) {
             errorMsg.postValue(NetworkError())
+        } catch (error: Exception) {
+            Log.i("Forecast", error.message!!)
         }
 
         return null;
