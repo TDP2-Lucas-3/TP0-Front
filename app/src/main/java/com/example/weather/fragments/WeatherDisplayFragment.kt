@@ -18,6 +18,9 @@ import com.example.weather.viewmodels.ForecastViewModel
 
 class WeatherDisplayFragment() : Fragment() {
     private var forecast: Forecast? = null
+    private val viewModel by lazy {
+        ViewModelProvider(this).get(ForecastViewModel::class.java)
+    }
 
     private fun temperatureAsCelsiusStr(): String {
         return "${forecast?.temp?.toInt()} ºC"
@@ -28,7 +31,6 @@ class WeatherDisplayFragment() : Fragment() {
     }
 
     private fun initialize() {
-        val viewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
         forecast = viewModel.fetchForecast()
         view?.findViewById<TextView>(R.id.weatherText)?.text = temperatureAsCelsiusStr()
         view?.findViewById<TextView>(R.id.rainText)?.text = rainProbabilityStr()
@@ -36,7 +38,6 @@ class WeatherDisplayFragment() : Fragment() {
 
     private fun initializeError() {
         val errorObserver = Observer<AppError> { error -> handleError(error) }
-        val viewModel = ViewModelProvider(this).get(ForecastViewModel::class.java)
         viewModel.subscribeToError(this, errorObserver)
     }
 
