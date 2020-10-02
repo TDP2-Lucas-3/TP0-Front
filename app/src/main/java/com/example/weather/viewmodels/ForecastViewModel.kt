@@ -12,7 +12,7 @@ import com.example.weather.models.Forecast
 import com.example.weather.repositories.ForecastRepository
 
 class ForecastViewModel : ViewModel() {
-    private val errorMsg: MutableLiveData<AppError> by lazy {
+    private val error: MutableLiveData<AppError> by lazy {
         MutableLiveData<AppError>()
     }
 
@@ -20,7 +20,7 @@ class ForecastViewModel : ViewModel() {
         try {
             return ForecastRepository().fetchForecast()
         } catch (error: NetworkErrorException) {
-            errorMsg.postValue(NetworkError())
+            this.error.postValue(NetworkError())
         } catch (error: Exception) {
             Log.i("Forecast", error.message!!)
         }
@@ -29,6 +29,6 @@ class ForecastViewModel : ViewModel() {
     }
 
     fun subscribeToError(fragment: WeatherDisplayFragment, observer: Observer<AppError>) {
-        errorMsg.observe(fragment, observer)
+        error.observe(fragment, observer)
     }
 }
