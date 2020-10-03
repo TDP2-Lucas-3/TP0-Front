@@ -3,4 +3,6 @@
     <string name="weather_channel_name">Weather</string>
     <string name="weather_channel_description">Weather Notifications</string>
     <string name="RAIN_PERCENTAGE_THRESHOLD">rain_percentage_threshold</string>
+    <string name="temperature_as_celsius">%1$d ºC</string>
+    <string name="rain_probability">%1$d%% lluvia</string>
 </resources>

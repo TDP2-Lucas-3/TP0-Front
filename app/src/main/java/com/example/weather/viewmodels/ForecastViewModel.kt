@@ -16,19 +16,25 @@ class ForecastViewModel : ViewModel() {
         MutableLiveData<AppError>()
     }
 
-    fun fetchForecast(): Forecast? {
+    private val forecast: MutableLiveData<Forecast> by lazy {
+        MutableLiveData<Forecast>()
+    }
+
+    fun fetchForecast() {
         try {
-            return ForecastRepository().fetchForecast()
+            forecast.postValue(ForecastRepository().fetchForecast())
         } catch (error: NetworkErrorException) {
             this.error.postValue(NetworkError())
         } catch (error: Exception) {
             Log.i("Forecast", error.message!!)
         }
-
-        return null;
     }
 
     fun subscribeToError(fragment: WeatherDisplayFragment, observer: Observer<AppError>) {
         error.observe(fragment, observer)
+    }
+
+    fun subscribeToForecast(fragment: WeatherDisplayFragment, observer: Observer<Forecast>) {
+        forecast.observe(fragment, observer)
     }
 }

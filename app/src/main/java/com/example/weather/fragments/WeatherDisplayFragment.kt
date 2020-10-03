@@ -17,28 +17,21 @@ import com.example.weather.viewmodels.ForecastViewModel
 
 
 class WeatherDisplayFragment() : Fragment() {
-    private var forecast: Forecast? = null
     private val viewModel by lazy {
         ViewModelProvider(this).get(ForecastViewModel::class.java)
     }
 
-    private fun temperatureAsCelsiusStr(): String {
-        return "${forecast?.temp?.toInt()} ºC"
-    }
-
-    private fun rainProbabilityStr(): String {
-        return "${forecast?.rain}% lluvia"
-    }
-
     private fun initialize() {
-        forecast = viewModel.fetchForecast()
-        view?.findViewById<TextView>(R.id.weatherText)?.text = temperatureAsCelsiusStr()
-        view?.findViewById<TextView>(R.id.rainText)?.text = rainProbabilityStr()
-    }
+        val forecastObserver = Observer<Forecast> { forecast -> updateScreen(forecast) }
+        viewModel.subscribeToForecast(this, forecastObserver)
 
-    private fun initializeError() {
         val errorObserver = Observer<AppError> { error -> handleError(error) }
         viewModel.subscribeToError(this, errorObserver)
+    }
+
+    private fun updateScreen(forecast: Forecast) {
+        view?.findViewById<TextView>(R.id.weatherText)?.text = getString(R.string.temperature_as_celsius, forecast.temp.toInt())
+        view?.findViewById<TextView>(R.id.rainText)?.text = getString(R.string.rain_probability, forecast.rain)
     }
 
     private fun handleError(error: AppError) {
@@ -50,8 +43,8 @@ class WeatherDisplayFragment() : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initializeError()
-        AsyncTask.run { initialize() }
+        initialize()
+        AsyncTask.run { viewModel.fetchForecast() }
     }
 
     override fun onCreateView(
