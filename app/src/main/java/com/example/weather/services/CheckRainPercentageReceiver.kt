@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.Intent.ACTION_BOOT_COMPLETED
 import android.util.Log
 import com.example.weather.WeatherDefaults
+import com.example.weather.support.AsyncTask
 
 class CheckRainPercentageReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -19,8 +20,9 @@ class CheckRainPercentageReceiver : BroadcastReceiver() {
             intent.action != ACTION_BOOT_COMPLETED) {
             return
         }
-
-        CheckRainPercentageService().run(context)
+        AsyncTask.run {
+            CheckRainPercentageService().run(context)
+        }
     }
 
 }
