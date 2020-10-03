@@ -3,4 +3,5 @@
     <string name="weather_channel_name">Weather</string>
     <string name="weather_channel_description">Weather Notifications</string>
     <string name="RAIN_PERCENTAGE_THRESHOLD">rain_percentage_threshold</string>
+    <string name="settings">Settings</string>
 </resources>
