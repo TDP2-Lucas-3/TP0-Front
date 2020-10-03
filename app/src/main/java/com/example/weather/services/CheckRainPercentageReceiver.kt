@@ -16,8 +16,7 @@ class CheckRainPercentageReceiver : BroadcastReceiver() {
             return
         }
 
-        if (intent.action != WeatherDefaults.ACTION_PERIODIC_RAIN_CHECK &&
-            intent.action != ACTION_BOOT_COMPLETED) {
+        if (intent.action != WeatherDefaults.ACTION_PERIODIC_RAIN_CHECK) {
             return
         }
         AsyncTask.run {
