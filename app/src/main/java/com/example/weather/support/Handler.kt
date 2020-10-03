@@ -1,16 +1,13 @@
 package com.example.weather.support
 
-import android.graphics.Color
-import android.view.View
+import android.content.Context
+import android.widget.Toast
 import com.example.weather.errors.AppError
-import com.google.android.material.snackbar.Snackbar
 
 class Handler {
     companion object {
-        fun handleError(view: View, error: AppError) {
-            val snackBar = Snackbar.make(view, error.getMessage(), Snackbar.LENGTH_LONG)
-            snackBar.view.setBackgroundColor(Color.RED)
-            snackBar.show()
+        fun handleError(context: Context, error: AppError) {
+            Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show()
         }
     }
 }

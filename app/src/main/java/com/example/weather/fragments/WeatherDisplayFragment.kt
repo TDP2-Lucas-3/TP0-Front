@@ -42,7 +42,7 @@ class WeatherDisplayFragment() : Fragment() {
     }
 
     private fun handleError(error: AppError) {
-        Handler.handleError(view!!, error)
+        Handler.handleError(activity!!, error)
 
         view?.findViewById<TextView>(R.id.weatherText)?.text = DEFAULT_ERROR_VALUE
         view?.findViewById<TextView>(R.id.rainText)?.text = DEFAULT_ERROR_VALUE
