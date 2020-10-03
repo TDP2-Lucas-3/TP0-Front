@@ -1,9 +1,11 @@
 package com.example.weather.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -21,12 +23,16 @@ class WeatherDisplayFragment() : Fragment() {
         ViewModelProvider(this).get(ForecastViewModel::class.java)
     }
 
-    private fun initialize() {
+    private fun setupObservers() {
         val forecastObserver = Observer<Forecast> { forecast -> updateScreen(forecast) }
         viewModel.subscribeToForecast(this, forecastObserver)
 
         val errorObserver = Observer<AppError> { error -> handleError(error) }
         viewModel.subscribeToError(this, errorObserver)
+    }
+
+    private fun setupView(view: View) {
+        view.findViewById<Button>(R.id.bRefresh).setOnClickListener { fetchForecast() }
     }
 
     private fun updateScreen(forecast: Forecast) {
@@ -41,10 +47,14 @@ class WeatherDisplayFragment() : Fragment() {
         view?.findViewById<TextView>(R.id.rainText)?.text = DEFAULT_ERROR_VALUE
     }
 
+    private fun fetchForecast() {
+        AsyncTask.run { viewModel.fetchForecast() }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initialize()
-        AsyncTask.run { viewModel.fetchForecast() }
+        setupObservers()
+        fetchForecast()
     }
 
     override fun onCreateView(
@@ -52,7 +62,10 @@ class WeatherDisplayFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.weather_display, container, false)
+        val view = inflater.inflate(R.layout.weather_display, container, false)
+        setupView(view)
+
+        return view
     }
 
     companion object {
