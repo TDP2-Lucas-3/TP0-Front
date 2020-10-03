@@ -9,14 +9,18 @@ import android.util.Log
 
 class RepeatingAlarm {
 
-    fun <T> setup(context: Context, service: Class<T>, repeatingInterval: Long) {
+    fun setup(context: Context, intent: Intent, repeatingInterval: Long) {
         Log.i("RainPercentageService", "Building Rain Percentage Service")
 
         val alarmManager =
             context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
 
-        val intent = Intent(context, service)
-        val pendingIntent = PendingIntent.getBroadcast(context, 123123, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            123123,
+            intent,
+            0
+        )
 
         alarmManager?.setInexactRepeating(
             AlarmManager.ELAPSED_REALTIME_WAKEUP,
