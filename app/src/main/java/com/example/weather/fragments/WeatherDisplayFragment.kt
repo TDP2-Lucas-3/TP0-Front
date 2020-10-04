@@ -1,9 +1,11 @@
 package com.example.weather.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,28 +19,25 @@ import com.example.weather.viewmodels.ForecastViewModel
 
 
 class WeatherDisplayFragment() : Fragment() {
-    private var forecast: Forecast? = null
     private val viewModel by lazy {
         ViewModelProvider(this).get(ForecastViewModel::class.java)
     }
 
-    private fun temperatureAsCelsiusStr(): String {
-        return "${forecast?.temp?.toInt()} ºC"
-    }
+    private fun setupObservers() {
+        val forecastObserver = Observer<Forecast> { forecast -> updateScreen(forecast) }
+        viewModel.subscribeToForecast(this, forecastObserver)
 
-    private fun rainProbabilityStr(): String {
-        return "${forecast?.rain}% lluvia"
-    }
-
-    private fun initialize() {
-        forecast = viewModel.fetchForecast()
-        view?.findViewById<TextView>(R.id.weatherText)?.text = temperatureAsCelsiusStr()
-        view?.findViewById<TextView>(R.id.rainText)?.text = rainProbabilityStr()
-    }
-
-    private fun initializeError() {
         val errorObserver = Observer<AppError> { error -> handleError(error) }
         viewModel.subscribeToError(this, errorObserver)
+    }
+
+    private fun setupView(view: View) {
+        view.findViewById<Button>(R.id.bRefresh).setOnClickListener { fetchForecast() }
+    }
+
+    private fun updateScreen(forecast: Forecast) {
+        view?.findViewById<TextView>(R.id.weatherText)?.text = getString(R.string.temperature_as_celsius, forecast.temp.toInt())
+        view?.findViewById<TextView>(R.id.rainText)?.text = getString(R.string.rain_probability, forecast.rain)
     }
 
     private fun handleError(error: AppError) {
@@ -48,10 +47,14 @@ class WeatherDisplayFragment() : Fragment() {
         view?.findViewById<TextView>(R.id.rainText)?.text = DEFAULT_ERROR_VALUE
     }
 
+    private fun fetchForecast() {
+        AsyncTask.run { viewModel.fetchForecast() }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initializeError()
-        AsyncTask.run { initialize() }
+        setupObservers()
+        fetchForecast()
     }
 
     override fun onCreateView(
@@ -59,7 +62,10 @@ class WeatherDisplayFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.weather_display, container, false)
+        val view = inflater.inflate(R.layout.weather_display, container, false)
+        setupView(view)
+
+        return view
     }
 
     companion object {
