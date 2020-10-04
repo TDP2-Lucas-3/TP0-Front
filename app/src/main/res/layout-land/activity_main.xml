@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container_layout"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -22,7 +22,7 @@
                 android:id="@+id/search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="20"
+                android:layout_weight="10"
                 android:iconifiedByDefault="false"
                 android:queryHint="@string/city"
                 android:showAsAction="always">
@@ -35,6 +35,7 @@
                 android:name="com.example.weather.fragments.SettingsFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
                 android:layout_weight="1" />
         </LinearLayout>
 
