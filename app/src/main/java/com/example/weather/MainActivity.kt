@@ -21,15 +21,6 @@ class MainActivity : AppCompatActivity() {
             AlarmManager.INTERVAL_FIFTEEN_MINUTES
         )
 
-        val rainPreference = getSharedPreferences(
-            getString(R.string.RAIN_PERCENTAGE_THRESHOLD),
-            Context.MODE_PRIVATE
-        )
-
-        with (rainPreference.edit()) {
-            putInt(getString(R.string.RAIN_PERCENTAGE_THRESHOLD), WeatherDefaults.RAIN_THRESHOLD)
-            apply()
-        }
         setContentView(R.layout.activity_main)
 
     }

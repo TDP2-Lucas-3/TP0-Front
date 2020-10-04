@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/settingsButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/settings"
