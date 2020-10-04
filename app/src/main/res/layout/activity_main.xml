@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sunny"
+    android:id="@+id/container_layout"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -47,6 +47,12 @@
             android:name="com.example.weather.fragments.WeatherDisplayFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <fragment
+            android:id="@+id/fragment"
+            android:name="com.example.weather.fragments.BackgroundFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 
