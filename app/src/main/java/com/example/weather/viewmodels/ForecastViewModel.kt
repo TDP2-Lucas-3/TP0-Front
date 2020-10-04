@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.weather.errors.AppError
 import com.example.weather.errors.NetworkError
 import com.example.weather.exceptions.NetworkErrorException
-import com.example.weather.fragments.WeatherDisplayFragment
+import com.example.weather.fragments.ForecastFragment
 import com.example.weather.models.Forecast
 import com.example.weather.repositories.ForecastRepository
 
@@ -30,11 +30,11 @@ class ForecastViewModel : ViewModel() {
         }
     }
 
-    fun subscribeToError(fragment: WeatherDisplayFragment, observer: Observer<AppError>) {
+    fun subscribeToError(fragment: ForecastFragment, observer: Observer<AppError>) {
         error.observe(fragment, observer)
     }
 
-    fun subscribeToForecast(fragment: WeatherDisplayFragment, observer: Observer<Forecast>) {
+    fun subscribeToForecast(fragment: ForecastFragment, observer: Observer<Forecast>) {
         forecast.observe(fragment, observer)
     }
 }
