@@ -7,6 +7,12 @@
     android:id="@+id/container_layout"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,11 +34,13 @@
 
 
             </SearchView>
+
             <fragment
                 android:id="@+id/fragment2"
                 android:name="com.example.weather.fragments.SettingsFragment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:layout_weight="1" />
         </LinearLayout>
 
